@@ -3,4 +3,4 @@ project(flightgear)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(flightgear main.cpp)
+add_executable(flightgear main.cpp lexer.cpp lexer.h)
