@@ -3,12 +3,8 @@
 //
 #include <iostream>
 #include <string.h>
-#include <fcntl.h>
 #include <fstream>
 #include <vector>
-#include <stdlib.h>
-#include <cstring>
-#include <regex.h>
 #include <regex>
 #include "lexer.h"
 using namespace std;
