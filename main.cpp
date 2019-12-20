@@ -6,7 +6,7 @@ int main()
 {
     Lexer* l = new Lexer();
 
-    l->lexer("/home/duni/CLionProjects/flightgear/fly.txt");
+    l->lexer("/home/duni/Documents/GitHub/flightgear/fly.txt");
 
     return 0;
 }

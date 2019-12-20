@@ -17,6 +17,36 @@ class Lexer {
 
 public:
 
+    bool doesCommaExist (string line) {
+        regex parenthesis ("(.*,.*)");
+        int count = distance(sregex_iterator (line.begin(), line.end(), parenthesis), sregex_iterator());
+        return count != 0;
+    }
+
+    bool doesEqualExist (string line) {
+        regex parenthesis ("(.*\\=.*)");
+        int count = distance(sregex_iterator (line.begin(), line.end(), parenthesis), sregex_iterator());
+        return count != 0;
+    }
+
+    bool doesVarExistAndArrow (string line) {
+        regex parenthesis ("(var.*(->|<-).*)");
+        int count = distance(sregex_iterator (line.begin(), line.end(), parenthesis), sregex_iterator());
+        return count != 0;
+    }
+
+    bool doesVarExistAndArrowRight (string line) {
+        regex parenthesis ("(var.*->.*)");
+        int count = distance(sregex_iterator (line.begin(), line.end(), parenthesis), sregex_iterator());
+        return count != 0;
+    }
+
+    bool doesVarExistAndEqual (string line) {
+        regex parenthesis ("(var.*\\=.*)");
+        int count = distance(sregex_iterator (line.begin(), line.end(), parenthesis), sregex_iterator());
+        return count != 0;
+    }
+
     bool doesParanthesisExist (string line) {
         regex parenthesis ("((\\().*(\\)))");
         int count = distance(sregex_iterator (line.begin(), line.end(), parenthesis), sregex_iterator());
@@ -67,8 +97,8 @@ public:
             if (currChar == delim) {
                 return true;
             }
-            return false;
         }
+        return false;
     }
 
     void lexer(string fileName) {
@@ -81,6 +111,7 @@ public:
         char *wordToPushPartFour;
         bool isPar = false;
         bool isDDigit = false;
+        bool isArrowLeft = false;
         string delim;
 
         ifstream in_file{fileName, std::ios::in};
@@ -98,37 +129,37 @@ public:
                 } else {
                     isPar = true;
                     strArray.emplace_back(strtok(lineStrTok, "("));
-                }
-                if (doesDelimExist(line, '>')) {
-                    wordToPushPartOne = strtok(NULL, ">");
-                    delim = ">";
-                } else if (doesDelimExist(line, '<')) {
-                    wordToPushPartOne = strtok(NULL, "<");
-                    delim = "<";
-                } else if (doesESExist(line)) {
-                    wordToPushPartOne = strtok(NULL, "<=");
+                } if (doesESExist(line)) {
+                    wordToPushPartOne = strtok(nullptr, "<=");
                     delim = "<=";
                     isDDigit = true;
                 } else if (doesEGExist(line)) {
-                    wordToPushPartOne = strtok(NULL, ">=");
+                    wordToPushPartOne = strtok(nullptr, ">=");
                     delim = ">=";
                     isDDigit = true;
                 } else if (doesEEExist(line)) {
-                    wordToPushPartOne = strtok(NULL, "==");
+                    wordToPushPartOne = strtok(nullptr, "==");
                     delim = "==";
                     isDDigit = true;
                 } else if (doesNEExist(line)) {
-                    wordToPushPartOne = strtok(NULL, "!=");
+                    wordToPushPartOne = strtok(nullptr, "!=");
                     delim = "!=";
                     isDDigit = true;
+                } else if (doesDelimExist(line, '>')) {
+                    wordToPushPartOne = strtok(nullptr, ">");
+                    delim = ">";
+                } else if (doesDelimExist(line, '<')) {
+                    wordToPushPartOne = strtok(nullptr, "<");
+                    delim = "<";
                 }
                 strArray.emplace_back(wordToPushPartOne);
                 strArray.emplace_back(delim);
-                wordToPushPartTwo = strtok(NULL, "{");
+                wordToPushPartTwo = strtok(nullptr, "{");
                 if (isDDigit) {
                     for (i = 1; i < strlen(wordToPushPartTwo); i++) {
                         wordToPushPartTwo[i - 1] = wordToPushPartTwo[i];
                     }
+                    wordToPushPartThree[strlen(wordToPushPartThree) - 1] = '\0';
                 }
                 if (!isPar) {
                     strArray.emplace_back(wordToPushPartTwo);
@@ -138,38 +169,61 @@ public:
                 }
 
                 strArray.emplace_back("{");
+            } else if (doesVarExistAndEqual(line)) {
+                wordToPushPartOne = strtok(lineStrTok, " ");
+                strArray.emplace_back(wordToPushPartOne);
+                wordToPushPartTwo = strtok(nullptr, "=");
+                strArray.emplace_back(wordToPushPartTwo);
+                strArray.emplace_back("=");
+                wordToPushPartThree = strtok(nullptr, "\n");
+                strArray.emplace_back(wordToPushPartThree);
+            } else if (doesVarExistAndArrow(line)) {
+                wordToPushPartOne = strtok(lineStrTok, " ");
+                strArray.emplace_back(wordToPushPartOne);
+                if (doesVarExistAndArrowRight(line)) {
+                    wordToPushPartTwo = strtok(nullptr, "->");
+                } else {
+                    wordToPushPartTwo = strtok(nullptr, "<-");
+                    isArrowLeft = true;
+                }
+                strArray.emplace_back(wordToPushPartTwo);
+                if (isArrowLeft) {
+                    strArray.emplace_back("<-");
+                } else {
+                    strArray.emplace_back("->");
+                }
+                wordToPushPartThree = strtok(nullptr, "(");
+                for (i = 1; i < strlen(wordToPushPartThree); i++) {
+                    wordToPushPartThree[i - 1] = wordToPushPartThree[i];
+                }
+                wordToPushPartThree[strlen(wordToPushPartThree) - 1] = '\0';
+                strArray.emplace_back(wordToPushPartThree);
+                wordToPushPartFour = strtok(nullptr, ")");
+                strArray.emplace_back(wordToPushPartFour);
+            } else if (doesEqualExist(line)) {
+                wordToPushPartOne = strtok(lineStrTok, "=");
+                strArray.emplace_back(wordToPushPartOne);
+                strArray.emplace_back("=");
+                wordToPushPartTwo = strtok(nullptr, "\n");
+                strArray.emplace_back(wordToPushPartTwo);
+            } else if (doesParanthesisExist(line)) {
+                wordToPushPartOne = strtok(lineStrTok, "(");
+                strArray.emplace_back(wordToPushPartOne);
+                if (doesCommaExist(line)) {
+                    wordToPushPartTwo[strlen(wordToPushPartTwo) - 1] = '\0';
+                    wordToPushPartTwo = strtok(nullptr, ",");
+                    while (wordToPushPartTwo) {
+                        strArray.emplace_back(wordToPushPartTwo);
+                        wordToPushPartTwo = strtok(nullptr, ",");
+                    }
+                } else {
+                    wordToPushPartTwo = strtok(nullptr, ")");
+                    strArray.emplace_back(wordToPushPartTwo);
+                }
+            } else {
+                strArray.emplace_back(line);
             }
-
-
-
-
-
-
-
-
-
-//            if (doesParanthesisExist(line)) {
-//                wordToPushPartOne = strtok(lineStrTok, "(");
-//                wordToPushPartTwo = strtok(NULL, ")");
-//                cout << wordToPushPartOne << endl;
-//                cout << wordToPushPartTwo << endl;
-//            } if (doesEqualExist(wordToPushPartOne, '=')) {
-//                wordToPushPartThree = strtok(lineStrTok, "=");
-//                wordToPushPartFour = strtok(NULL, "=");
-//                cout << wordToPushPartThree << endl;
-//                cout << wordToPushPartFour << endl;
-//            } if (doesEqualExist(wordToPushPartTwo, '=')) {
-//                wordToPushPartThree = strtok(lineStrTok, "=");
-//                wordToPushPartFour = strtok(NULL, "=");
-//                cout << wordToPushPartThree << endl;
-//                cout << wordToPushPartFour << endl;
-//            }
-//
-//
-//        }
-
         }
     }
-
 };
 
