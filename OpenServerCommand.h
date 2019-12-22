@@ -13,10 +13,9 @@ using namespace std;
 
 class OpenServerCommand : public Command {
 private:
-    int port;
     vector<string> params;
 public:
-    OpenServerCommand (vector<string>, int);
+    OpenServerCommand (vector<string>);
     int execute();
     virtual ~OpenServerCommand();
 };
