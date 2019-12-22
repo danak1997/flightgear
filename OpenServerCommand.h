@@ -8,13 +8,14 @@
 #include "Command.h"
 #include <vector>
 #include <string>
+#include <thread>
 
 using namespace std;
 
 class OpenServerCommand : public Command {
 public:
     int execute(vector<string>);
-    void connectServer(int);
+    // void connectServer(int);
     //virtual ~OpenServerCommand();
 };
 

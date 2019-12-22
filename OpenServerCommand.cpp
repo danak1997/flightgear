@@ -7,14 +7,17 @@
 #include <cstring>
 #include "OpenServerCommand.h"
 #include <iostream>
+#include <thread>
 
-void OpenServerCommand::connectServer(int port) {
+void connectServer(int port) {
     int serverFd, newSocket, readValue;
     struct sockaddr_in socketAddress;
     int optionNumber = 1;
     int addressLength = sizeof(socketAddress);
     char buffer[1024] = {0};
     char* message;
+
+    cout << "aaln" << endl;
 
     // Create socket
     if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -42,21 +45,24 @@ void OpenServerCommand::connectServer(int port) {
         exit(EXIT_FAILURE);
     }
 
-    cout << "gtgthr" << endl;
     if ((newSocket = accept(serverFd, (struct sockaddr *)&socketAddress, (socklen_t*)&addressLength)) < 0) {
         perror("accept");
         exit(EXIT_FAILURE);
     }
 
     cout << "start" << endl;
-    readValue = read( newSocket, buffer, 1024);
-    cout << buffer << endl;
-    printf("nfjehfeuiwh");
+    while(read(newSocket, buffer, 1024)) {
+        cout << buffer << endl;
+    }
 }
 
 int OpenServerCommand::execute(vector<string> params) {
     int port = stoi(params[1]);
     cout << port << endl;
-    connectServer(port);
+
+    thread treadServer(connectServer, port);
+    cout << "end" << endl;
+    while(1) {}
+
     return 2;
 }
