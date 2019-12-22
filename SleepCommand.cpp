@@ -3,10 +3,7 @@
 //
 
 #include "SleepCommand.h"
-SleepCommand::SleepCommand(vector<string> params) {
-  this->params = params;
-}
 
-int SleepCommand::execute() {
+int SleepCommand::execute(vector<string> params) {
 
 }

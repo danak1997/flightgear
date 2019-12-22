@@ -13,12 +13,9 @@
 using namespace std;
 
 class ConnectCommand : public Command {
-private:
-    vector<string> params;
 public:
-    ConnectCommand (vector<string>);
-    int execute();
-    virtual ~ConnectCommand();
+    int execute(vector<string>);
+    //virtual ~ConnectCommand();
 };
 
 

@@ -12,12 +12,9 @@
 using namespace std;
 
 class OpenServerCommand : public Command {
-private:
-    vector<string> params;
 public:
-    OpenServerCommand (vector<string>);
-    int execute();
-    virtual ~OpenServerCommand();
+    int execute(vector<string>);
+    //virtual ~OpenServerCommand();
 };
 
 

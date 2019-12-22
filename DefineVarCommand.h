@@ -10,12 +10,9 @@
 #include <string>
 using namespace std;
 class DefineVarCommand : public Command{
- private:
-  vector<string> params;
  public:
-  DefineVarCommand (vector<string>);
-  int execute();
-  virtual ~DefineVarCommand();
+  int execute(vector<string>);
+  //virtual ~DefineVarCommand();
 };
 
 #endif //FLIGHTGEAR__DEFINEVARCOMMAND_H_

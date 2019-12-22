@@ -4,10 +4,6 @@
 
 #include "ConditionParser.h"
 
-ConditionParser::ConditionParser(vector<string> params) {
-    this->params = params;
-}
-
-int ConditionParser::execute() {
+int ConditionParser::execute(vector<string> params) {
 
 }

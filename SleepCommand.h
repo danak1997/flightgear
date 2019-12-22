@@ -11,12 +11,8 @@
 using namespace std;
 
 class SleepCommand : public Command{
- private:
-  vector<string> params;
- public:
-  SleepCommand (vector<string>);
-  int execute();
-  virtual ~SleepCommand();
+  int execute(vector<string>);
+  //virtual ~SleepCommand();
 };
 
 #endif //FLIGHTGEAR__SLEEPCOMMAND_H_

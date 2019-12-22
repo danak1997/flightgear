@@ -4,10 +4,6 @@
 
 #include "PrintCommand.h"
 
-PrintCommand::PrintCommand(vector<string> params) {
-    this->params = params;
-}
-
-int PrintCommand::execute() {
+int PrintCommand::execute(vector<string> params) {
 
 }

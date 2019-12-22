@@ -1,12 +1,13 @@
 #include <iostream>
 #include "lexer.cpp"
 #include "lexer.h"
+#include "Parser.h"
 
 int main()
 {
     Lexer* l = new Lexer();
-
-    l->lexer("/home/duni/Documents/GitHub/flightgear/fly.txt");
+    Parser* p = new Parser(l->lexer("/home/duni/Documents/GitHub/flightgear/fly.txt"));
+    p->parsering();
 
     return 0;
 }

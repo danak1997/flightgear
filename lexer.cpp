@@ -97,7 +97,7 @@ public:
         return false;
     }
 
-    void lexer(string fileName) {
+    vector<string> lexer(string fileName) {
         int i;
         vector<string> strArray;
         string line;
@@ -220,6 +220,7 @@ public:
                 strArray.emplace_back(line);
             }
         }
+        return strArray;
     }
 };
 

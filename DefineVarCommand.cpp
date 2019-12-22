@@ -3,10 +3,7 @@
 //
 
 #include "DefineVarCommand.h"
-DefineVarCommand::DefineVarCommand(vector<string> params) {
-  this->params = params;
-}
 
-int DefineVarCommand::execute() {
+int DefineVarCommand::execute(vector<string> params) {
 
 }

@@ -4,10 +4,6 @@
 
 #include "ConnectCommand.h"
 
-ConnectCommand::ConnectCommand(vector<string> params) {
-    this->params = params;
-}
-
-int ConnectCommand::execute() {
+int ConnectCommand::execute(vector<string> params) {
 
 }

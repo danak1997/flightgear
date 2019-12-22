@@ -4,10 +4,6 @@
 
 #include "OpenServerCommand.h"
 
-OpenServerCommand::OpenServerCommand(vector<string> params) {
-    this->params = params;
-}
-
-int OpenServerCommand::execute() {
-
+int OpenServerCommand::execute(vector<string> params) {
+    return 2;
 }

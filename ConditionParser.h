@@ -13,12 +13,9 @@
 using namespace std;
 
 class ConditionParser : public Command {
-private:
-    vector<string> params;
 public:
-    ConditionParser (vector<string>);
-    int execute();
-    virtual ~ConditionParser();
+    int execute(vector<string>);
+    //virtual ~ConditionParser();
 };
 
 

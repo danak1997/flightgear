@@ -13,12 +13,9 @@
 using namespace std;
 
 class PrintCommand : public Command {
-private:
-    vector<string> params;
 public:
-    PrintCommand (vector<string>);
-    int execute();
-    virtual ~PrintCommand();
+    int execute(vector<string>);
+    //virtual ~PrintCommand();
 };
 
 #endif //FLIGHTGEAR_PRINTCOMMAND_H
