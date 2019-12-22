@@ -3,7 +3,10 @@
 //
 
 #include "SleepCommand.h"
+#include <thread>
 
 int SleepCommand::execute(vector<string> params) {
-
+  int num = stoi(params[1]);
+  this_thread::sleep_for(chrono::milliseconds(num));
+  return 2;
 }
