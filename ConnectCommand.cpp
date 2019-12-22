@@ -5,5 +5,5 @@
 #include "ConnectCommand.h"
 
 int ConnectCommand::execute(vector<string> params) {
-
+    return 3;
 }

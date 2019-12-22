@@ -5,5 +5,5 @@
 #include "DefineVarCommand.h"
 
 int DefineVarCommand::execute(vector<string> params) {
-
+    return 5;
 }
