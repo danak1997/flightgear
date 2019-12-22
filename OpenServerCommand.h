@@ -14,6 +14,7 @@ using namespace std;
 class OpenServerCommand : public Command {
 public:
     int execute(vector<string>);
+    void connectServer(int);
     //virtual ~OpenServerCommand();
 };
 
