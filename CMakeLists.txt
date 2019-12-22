@@ -3,4 +3,4 @@ project(flightgear)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(flightgear main.cpp lexer.cpp lexer.h Command.cpp Command.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h ConditionParser.cpp ConditionParser.h)
+add_executable(flightgear main.cpp lexer.cpp lexer.h Command.cpp Command.h OpenServerCommand.cpp OpenServerCommand.h ConnectCommand.cpp ConnectCommand.h PrintCommand.cpp PrintCommand.h ConditionParser.cpp ConditionParser.h DefineVarCommand.cpp DefineVarCommand.h SleepCommand.cpp SleepCommand.h)
