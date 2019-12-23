@@ -13,7 +13,8 @@ void connectClient(int port, const char* ip) {
     int socketId = 0, readValue;
     struct sockaddr_in serverAddress;
     char buffer[1024] = {0};
-    char* message = "set /controls/engines/current-engine/throttle 1\r\n";
+    string message = "set /controls/engines/current-engine/throttle 1\r\n";
+    const char* c = message.c_str();
 
     cout << "aaln client" << endl;
 
