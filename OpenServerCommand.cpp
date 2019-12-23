@@ -62,7 +62,7 @@ int OpenServerCommand::execute(vector<string> params) {
     thread treadServer(connectServer, port);
     cout << "end" << endl;
     //treadServer.join();
-    while(1){}
+    while(1) {}
 
     return 2;
 }
