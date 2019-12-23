@@ -9,7 +9,7 @@
 #include <thread>
 #include "ConnectCommand.h"
 
-void connectClient(int port, const char* ip) {
+void connectClient(int port, string ip) {
     int socketId = 0, readValue;
     struct sockaddr_in serverAddress;
     char buffer[1024] = {0};
@@ -28,37 +28,28 @@ void connectClient(int port, const char* ip) {
 
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
+    const char* ipConst = ip.c_str();
 
-    if (inet_pton(AF_INET, ip, &serverAddress.sin_addr) <= 0) {
+    if (inet_pton(AF_INET, ipConst, &serverAddress.sin_addr) <= 0) {
         cout << "invalid address" << endl;
         exit(EXIT_FAILURE);
     }
 
     cout << "address converted" << endl;
 
-    if (connect(socketId, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {
-        cout << "connection failed" << endl;
+    while (connect(socketId, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {
     }
 
     cout << "connected" << endl;
-
     send(socketId, c, strlen(c), 0);
-
     cout << "message sent" << endl;
-
 }
 
 int ConnectCommand::execute(vector<string> params) {
     int port = stoi(params[2]);
     int i;
     string ip = params[1];
-    const char* c = ip.c_str();
-    char* newC;
-    for (i = 1; i < strlen(c); i++) {
-        newC[i - 1] = c[i];
-    }
-    newC[strlen(newC) - 1] = '\0';
-    thread threadClient(connectClient, port, newC);
-    while(1){}
+    ip = ip.substr(1, ip.length() - 2);
+    this->threadClient = thread(connectClient, port, ip);
     return 3;
 }

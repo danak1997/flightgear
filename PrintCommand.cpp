@@ -6,6 +6,6 @@
 #include "PrintCommand.h"
 
 int PrintCommand::execute(vector<string> params) {
-    cout << params[1] << endl;
+    cout << params[1].substr(1, params[1].length() - 2) << endl;
     return 2;
 }

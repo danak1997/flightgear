@@ -6,8 +6,9 @@
 int main()
 {
     Lexer* l = new Lexer();
-    Parser* p = new Parser(l->lexer("/home/chen96/Documents/GitHub/flightgear/fly.txt"));
+    Parser* p = new Parser(l->lexer("fly.txt"));
     p->parsering();
+    while(1) {}
 
     return 0;
 }

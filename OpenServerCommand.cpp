@@ -16,8 +16,6 @@ void connectServer(int port) {
     char buffer[1024] = {0};
     char* message;
 
-    cout << "aaln" << endl;
-
     // Create socket
     if ((serverFd = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
         perror("socket failed");
@@ -44,25 +42,27 @@ void connectServer(int port) {
         exit(EXIT_FAILURE);
     }
 
+    cout << "accepting clients" << endl;
     if ((newSocket = accept(serverFd, (struct sockaddr *)&socketAddress, (socklen_t*)&addressLength)) < 0) {
         perror("accept");
         exit(EXIT_FAILURE);
     }
 
-    cout << "start" << endl;
+    cout << "client connected, listen for messages" << endl;
+    bool printOnce = true;
     while(read(newSocket, buffer, 1024)) {
-        cout << buffer << endl;
+        if (printOnce) {
+            cout << buffer << endl;
+            printOnce = false;
+        }
     }
 }
 
 int OpenServerCommand::execute(vector<string> params) {
     int port = stoi(params[1]);
     cout << port << endl;
-
-    thread treadServer(connectServer, port);
-    cout << "end" << endl;
-    //treadServer.join();
-    while(1) {}
+    this->threadServer = thread(connectServer, port);
+    cout << "end OpenServerCommand" << endl;
 
     return 2;
 }
