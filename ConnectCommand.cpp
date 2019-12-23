@@ -42,7 +42,7 @@ void connectClient(int port, const char* ip) {
 
     cout << "connected" << endl;
 
-    send(socketId, message, strlen(message), 0);
+    send(socketId, c, strlen(c), 0);
 
     cout << "message sent" << endl;
 
