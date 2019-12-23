@@ -59,6 +59,6 @@ int ConnectCommand::execute(vector<string> params) {
     }
     newC[strlen(newC) - 1] = '\0';
     thread threadClient(connectClient, port, newC);
-    while (1) {}
+    while(1){}
     return 3;
 }
