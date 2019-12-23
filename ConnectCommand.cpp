@@ -13,7 +13,8 @@ void connectClient(int port, const char* ip) {
     int socketId = 0, readValue;
     struct sockaddr_in serverAddress;
     char buffer[1024] = {0};
-    char* message = "set /controls/engines/current-engine/throttle 1";
+    string message = "set /controls/engines/current-engine/throttle 1\r\n";
+    const char* c = message.c_str();
 
     cout << "aaln client" << endl;
 
@@ -41,7 +42,7 @@ void connectClient(int port, const char* ip) {
 
     cout << "connected" << endl;
 
-    send(socketId, message, strlen(message), 0);
+    send(socketId, c, strlen(c), 0);
 
     cout << "message sent" << endl;
 
@@ -58,6 +59,6 @@ int ConnectCommand::execute(vector<string> params) {
     }
     newC[strlen(newC) - 1] = '\0';
     thread threadClient(connectClient, port, newC);
-    
+    while (1) {}
     return 3;
 }

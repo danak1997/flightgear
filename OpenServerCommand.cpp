@@ -59,10 +59,10 @@ int OpenServerCommand::execute(vector<string> params) {
     int port = stoi(params[1]);
     cout << port << endl;
 
-    //thread treadServer(connectServer, port);
+    thread treadServer(connectServer, port);
     cout << "end" << endl;
     //treadServer.join();
-    //while(1) {}
+    while(1) {}
 
     return 2;
 }
