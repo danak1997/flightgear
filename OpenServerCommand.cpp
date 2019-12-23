@@ -4,7 +4,6 @@
 
 #include <netinet/in.h>
 #include <unistd.h>
-#include <cstring>
 #include "OpenServerCommand.h"
 #include <iostream>
 #include <thread>
@@ -60,9 +59,10 @@ int OpenServerCommand::execute(vector<string> params) {
     int port = stoi(params[1]);
     cout << port << endl;
 
-    thread treadServer(connectServer, port);
+    //thread treadServer(connectServer, port);
     cout << "end" << endl;
-    while(1) {}
+    //treadServer.join();
+    //while(1) {}
 
     return 2;
 }
