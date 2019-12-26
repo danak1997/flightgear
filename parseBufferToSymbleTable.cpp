@@ -6,14 +6,16 @@
 #include <vector>
 #include "parseBufferToSymbleTable.h"
 
-map<std::__cxx11::string, float> parseBufferToSymbolTable::parseBufferAnsSymbolTables(char * buffer) {
+map<std::__cxx11::string, float> parseBufferToSymbolTable::parseBufferAnsSymbolTables(string buffer) {
     vector<float > bufferArray;
     map<string, float> xmlMap;
     char delim = ',';
     char* currValue;
     float valueToInsert;
-    currValue = strtok(buffer, ",");
-    while (buffer) {
+    char bufferToStrTok[buffer.length() + 1];
+    strcpy(bufferToStrTok, buffer.c_str());
+    currValue = strtok(bufferToStrTok, ",");
+    while (bufferToStrTok) {
         valueToInsert = stof(currValue);
         bufferArray.emplace_back(valueToInsert);
         currValue = strtok(nullptr, ",");
@@ -54,4 +56,5 @@ map<std::__cxx11::string, float> parseBufferToSymbolTable::parseBufferAnsSymbolT
     xmlMap.insert({"/controls/switches/master-bat", bufferArray[34]});
     xmlMap.insert({"/controls/switches/master-alt", bufferArray[35]});
     xmlMap.insert({"/engines/engine/rpm", bufferArray[36]});
+    return xmlMap;
 }

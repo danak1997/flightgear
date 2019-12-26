@@ -15,8 +15,8 @@ void connectServer(int port) {
     struct sockaddr_in socketAddress;
     int optionNumber = 1;
     int addressLength = sizeof(socketAddress);
-    char buffer1[1024] = {0};
-    char buffer2[1024] = {0};
+    char buffer1[1] = {0};
+    string bufferWithLine = "";
     char* message;
 
     // Create socket
@@ -55,17 +55,23 @@ void connectServer(int port) {
     bool printOnce = true;
     int index = 0;
     int countCommas = 0;
-    parseBufferToSymbolTable parseBufferToSymbolTable;
-            parseBufferToSymbolTable.parseBufferAnsSymbolTables(strtok(buffer1, "\n"));
-    while(read(newSocket, buffer1, 1024)) {
+    map<string, float> xmlMap;
+    parseBufferToSymbolTable* parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
+    while(read(newSocket, buffer1, 1)) {
         char currChar = buffer1[index];
-
-//        while (currChar != '\n') {
+        while (currChar != '\n') {
+            bufferWithLine += buffer1[0];
+            index++;
+            currChar = buffer1[0];
+        }
+        xmlMap = parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
+//        if (printOnce) {
 //            index++;
-//            currChar = buffer1[index];
+//            cout << buffer1 << endl;
+//            if(index==8) {
+//                printOnce = false;
+//            }
 //        }
-
-        cout << buffer1 << endl;
     }
 
 }

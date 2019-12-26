@@ -13,7 +13,7 @@ using namespace std;
 
 class parseBufferToSymbolTable {
 public:
-    map <string, float >parseBufferAnsSymbolTables (char[]);
+    map <string, float >parseBufferAnsSymbolTables (string);
 };
 
 
