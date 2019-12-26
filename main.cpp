@@ -2,7 +2,7 @@
 #include "lexer.cpp"
 #include "lexer.h"
 #include "Parser.h"
-
+#include "Maps.h"
 int main()
 {
     Lexer* l = new Lexer();

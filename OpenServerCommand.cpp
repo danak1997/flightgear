@@ -7,8 +7,8 @@
 #include "OpenServerCommand.h"
 #include <iostream>
 #include <thread>
-#include <cstring>
 #include "parseBufferToSymbleTable.h"
+#include "Maps.h"
 
 void connectServer(int port) {
     int serverFd, newSocket, readValue;
@@ -55,28 +55,24 @@ void connectServer(int port) {
     bool printOnce = true;
     int index = 0;
     int countCommas = 0;
-    map<string, float> xmlMap;
+    map<string, pair<float, string>>::iterator it;
     auto* parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
-    while (1) {
-        bufferWithLine = "";
         while (read(newSocket, buffer1, 1)) {
             char currChar = buffer1[0];
             if (currChar != '\n') {
                 bufferWithLine += buffer1[0];
+            } else{
+              parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
+              bufferWithLine = "";
+              for ( it = Maps::symbolTableSimToClient.begin(); it != Maps::symbolTableSimToClient.end(); it++ )
+              {
+                string sim = it->second.second;
+                float value = Maps::xmlMap[sim];
+                it->second.first = value;
+              }
             }
-//        if (printOnce) {
-//            index++;
-//            cout << buffer1 << endl;
-//            if(index==8) {
-//                printOnce = false;
-//            }
-//        }
+
         }
-        
-        xmlMap = parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
-    }
-
-
 }
 
 int OpenServerCommand::execute(vector<string> params) {

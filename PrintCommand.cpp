@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "PrintCommand.h"
+#include "Maps.h"
 
 int PrintCommand::execute(vector<string> params) {
     cout << params[1].substr(1, params[1].length() - 2) << endl;
