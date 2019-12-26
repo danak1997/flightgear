@@ -56,15 +56,14 @@ void connectServer(int port) {
     int index = 0;
     int countCommas = 0;
     map<string, float> xmlMap;
-    parseBufferToSymbolTable* parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
-    while(read(newSocket, buffer1, 1)) {
-        char currChar = buffer1[index];
-        while (currChar != '\n') {
-            bufferWithLine += buffer1[0];
-            index++;
-            currChar = buffer1[0];
-        }
-        xmlMap = parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
+    auto* parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
+    while (1) {
+        bufferWithLine = "";
+        while (read(newSocket, buffer1, 1)) {
+            char currChar = buffer1[0];
+            if (currChar != '\n') {
+                bufferWithLine += buffer1[0];
+            }
 //        if (printOnce) {
 //            index++;
 //            cout << buffer1 << endl;
@@ -72,7 +71,11 @@ void connectServer(int port) {
 //                printOnce = false;
 //            }
 //        }
+        }
+        
+        xmlMap = parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
     }
+
 
 }
 
