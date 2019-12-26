@@ -7,13 +7,16 @@
 #include "OpenServerCommand.h"
 #include <iostream>
 #include <thread>
+#include <cstring>
+#include "parseBufferToSymbleTable.h"
 
 void connectServer(int port) {
     int serverFd, newSocket, readValue;
     struct sockaddr_in socketAddress;
     int optionNumber = 1;
     int addressLength = sizeof(socketAddress);
-    char buffer[1024] = {0};
+    char buffer1[1024] = {0};
+    char buffer2[1024] = {0};
     char* message;
 
     // Create socket
@@ -50,12 +53,21 @@ void connectServer(int port) {
 
     cout << "client connected, listen for messages" << endl;
     bool printOnce = true;
-    while(read(newSocket, buffer, 1024)) {
-        if (printOnce) {
-            cout << buffer << endl;
-            printOnce = false;
-        }
+    int index = 0;
+    int countCommas = 0;
+    parseBufferToSymbolTable parseBufferToSymbolTable;
+            parseBufferToSymbolTable.parseBufferAnsSymbolTables(strtok(buffer1, "\n"));
+    while(read(newSocket, buffer1, 1024)) {
+        char currChar = buffer1[index];
+
+//        while (currChar != '\n') {
+//            index++;
+//            currChar = buffer1[index];
+//        }
+
+        cout << buffer1 << endl;
     }
+
 }
 
 int OpenServerCommand::execute(vector<string> params) {
