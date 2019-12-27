@@ -7,7 +7,9 @@
 
 int DefineVarCommand::execute(vector<string> params) {
   if (params[2].compare("->") == 0) {
-
+    string sim = params[4];
+    sim = sim.substr(1, sim.length() - 2);
+    Maps::symbolTableClientToSim[params[1]] = make_pair(0, sim);
   } else if (params[2].compare("<-") == 0) {
     string sim = params[4];
     sim = sim.substr(1, sim.length() - 2);

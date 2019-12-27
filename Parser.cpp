@@ -10,6 +10,7 @@
 #include "SleepCommand.h"
 #include "LoopCommand.h"
 #include "IfCommand.h"
+#include "SetCommand.h"
 
 
 Parser::Parser(vector<string> params) {
@@ -39,7 +40,12 @@ void Parser::parsering() {
     createMap();
     while (index < params.size()) {
         index = 0;
-        Command* c = CommandMap.at(params[index]);
+        if(CommandMap[params[index]]==nullptr){
+          Command *c = new SetCommand();
+        }
+        else {
+          Command *c = CommandMap.at(params[index]);
+        }
         if (c!= nullptr) {
             index += c->execute(params);
         }
