@@ -12,6 +12,7 @@ namespace Maps {
   extern map<string, float> xmlMap;
   extern map<string, pair<float, string>> symbolTableSimToClient;
   extern map<string, pair<float, string>> symbolTableClientToSim;
+  extern int socketId;
 };
 
 #endif //FLIGHTGEAR__MAPS_H_

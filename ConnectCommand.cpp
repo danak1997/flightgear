@@ -8,6 +8,7 @@
 #include <cstring>
 #include <thread>
 #include "ConnectCommand.h"
+#include "Maps.h"
 
 void connectClient(int port, string ip) {
     int socketId = 0, readValue;
@@ -41,8 +42,7 @@ void connectClient(int port, string ip) {
     }
 
     cout << "connected" << endl;
-    send(socketId, c, strlen(c), 0);
-    cout << "message sent" << endl;
+    Maps::socketId = socketId;
 }
 
 int ConnectCommand::execute(vector<string> params) {

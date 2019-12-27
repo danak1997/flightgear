@@ -36,15 +36,16 @@ void Parser::createMap() {
 
 void Parser::parsering() {
     int index = 0;
+    Command *c;
     int i;
     createMap();
     while (index < params.size()) {
         index = 0;
         if(CommandMap[params[index]]==nullptr){
-          Command *c = new SetCommand();
+          c = new SetCommand();
         }
         else {
-          Command *c = CommandMap.at(params[index]);
+          c = CommandMap.at(params[index]);
         }
         if (c!= nullptr) {
             index += c->execute(params);

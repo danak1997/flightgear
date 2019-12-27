@@ -7,7 +7,7 @@
 #include "parseBufferToSymbleTable.h"
 #include "Maps.h"
 
-void parseBufferToSymbolTable::parseBufferAnsSymbolTables(string buffer) {
+void parseBufferToSymbolTable::parseBufferAnsSymbolTables(const string& buffer) {
   vector<float> bufferArray;
   char *currValue;
   float valueToInsert;

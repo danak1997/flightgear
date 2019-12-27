@@ -12,7 +12,7 @@ using namespace std;
 
 class parseBufferToSymbolTable {
 public:
-    void parseBufferAnsSymbolTables (string);
+    void parseBufferAnsSymbolTables (const string&);
 };
 
 
