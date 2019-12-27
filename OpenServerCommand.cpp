@@ -72,11 +72,8 @@ void connectServer(int port) {
 //            }
 //        }
         }
-        
         xmlMap = parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
     }
-
-
 }
 
 int OpenServerCommand::execute(vector<string> params) {
