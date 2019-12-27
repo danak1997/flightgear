@@ -10,10 +10,9 @@
 
 using namespace std;
 
-
 class parseBufferToSymbolTable {
 public:
-    map <string, float >parseBufferAnsSymbolTables (string);
+    void parseBufferAnsSymbolTables (string);
 };
 
 

@@ -3,13 +3,18 @@
 //
 
 #include "DefineVarCommand.h"
-#include <map>
-
-map<string, pair<double , string>> symbolTableSim;
-map<string, pair<double , string>> symbolTableClient;
+#include "Maps.h"
 
 int DefineVarCommand::execute(vector<string> params) {
+  if (params[2].compare("->") == 0) {
 
+  } else if (params[2].compare("<-") == 0) {
+    string sim = params[4];
+    sim = sim.substr(1, sim.length() - 2);
+    Maps::symbolTableSimToClient[params[1]] = make_pair(0, sim);
+  } else {
 
-    return 5;
+  }
+
+  return 5;
 }
