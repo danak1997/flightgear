@@ -16,7 +16,7 @@ class ConnectCommand : public Command {
 protected:
     thread threadClient;
 public:
-    int execute(vector<string>);
+    int execute(vector<string>,bool);
     //virtual ~ConnectCommand();
 };
 

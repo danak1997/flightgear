@@ -45,11 +45,13 @@ void connectClient(int port, string ip) {
     Maps::socketId = socketId;
 }
 
-int ConnectCommand::execute(vector<string> params) {
+int ConnectCommand::execute(vector<string> params,bool isConditionInvoked) {
+  if(isConditionInvoked) {
     int port = stoi(params[2]);
     int i;
     string ip = params[1];
     ip = ip.substr(1, ip.length() - 2);
     this->threadClient = thread(connectClient, port, ip);
+  }
     return 3;
 }

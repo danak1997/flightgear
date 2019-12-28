@@ -11,9 +11,10 @@
 
 using namespace std;
 
-class LoopCommand : public Command {
+class LoopCommand : public ConditionParser {
 public:
-    int execute(vector<string>);
+    LoopCommand(vector<string>,vector<Command>);
+    int execute(vector<string>, bool);
     //virtual ~LoopCommand();
 };
 

@@ -23,6 +23,7 @@ public:
     void createMap();
     //virtual ~Parser() {};
     void parsering();
+    int parseCondition();
 };
 
 

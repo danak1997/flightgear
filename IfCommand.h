@@ -10,7 +10,9 @@
 using namespace std;
 
 class IfCommand : public ConditionParser{
-    int execute(vector<string>);
+ public:
+    IfCommand(vector<string>,vector<Command>);
+    int execute(vector<string>,bool);
     //virtual ~IfCommand();
 };
 

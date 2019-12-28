@@ -4,6 +4,8 @@
 
 #include "LoopCommand.h"
 
-int LoopCommand::execute(vector<string> params) {
+int LoopCommand::execute(vector<string> params, bool isConditionInvoked) {
 
 }
+
+LoopCommand::LoopCommand(vector<string> booleanCondition,vector<Command> blockCommands) : ConditionParser(booleanCondition, blockCommands) {}

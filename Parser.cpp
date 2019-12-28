@@ -28,16 +28,12 @@ void Parser::createMap() {
     CommandMap.insert({"Print", pc});
     Command* sc = new SleepCommand();
     CommandMap.insert({"Sleep", sc});
-    Command* ic = new IfCommand();
-    CommandMap.insert({"if", ic});
-    Command* lc = new LoopCommand();
-    CommandMap.insert({"while", lc});
+
 }
 
 void Parser::parsering() {
     int index = 0;
     Command *c;
-    int i;
     createMap();
     while (index < params.size()) {
         index = 0;
@@ -48,7 +44,7 @@ void Parser::parsering() {
           c = CommandMap.at(params[index]);
         }
         if (c!= nullptr) {
-            index += c->execute(params);
+            index += c->execute(params, true);
         }
         vector<string>::iterator iteratorBegin, iteratorEnd = params.begin();
         iteratorBegin = params.begin();
@@ -56,4 +52,53 @@ void Parser::parsering() {
         params.erase(iteratorBegin, iteratorEnd);
     }
 
+}
+
+int Parser::parseCondition() {
+  int index = 0;
+  int conditionIndex = 0;
+  Command *c;
+  auto first = this->params.begin();
+  auto last = this->params.begin();
+  advance(last, 4);
+  vector<string> newVec(first,last);
+  vector<string>::iterator iteratorBegin, iteratorEnd = params.begin();
+  iteratorBegin = params.begin();
+  advance(iteratorEnd, 5);
+  params.erase(iteratorBegin, iteratorEnd);
+  vector<Command> commandVector;
+  while (index < params.size()) {
+    index = 0;
+    if(params[index]=="}"){
+      iteratorEnd = params.begin();
+      iteratorBegin = params.begin();
+      advance(iteratorEnd, 1);
+      params.erase(iteratorBegin, iteratorEnd);
+      break;
+    }
+    else if(CommandMap[params[index]]==nullptr){
+      c = new SetCommand();
+      commandVector.emplace_back(c);
+    }
+    else {
+      c = CommandMap.at(params[index]);
+      commandVector.emplace_back(c);
+    }
+    if (c!= nullptr) {
+      index += c->execute(params, false);
+    }
+    iteratorEnd = params.begin();
+    iteratorBegin = params.begin();
+    advance(iteratorEnd, index);
+    params.erase(iteratorBegin, iteratorEnd);
+  }
+  if(newVec[0].compare("if")==0){
+    Command *ci = new IfCommand(newVec,commandVector);
+    conditionIndex = ci->execute(params,true);
+  }
+  else{
+    Command *ci = new LoopCommand(newVec,commandVector);
+    conditionIndex = ci->execute(params,true);
+  }
+  return conditionIndex;
 }
