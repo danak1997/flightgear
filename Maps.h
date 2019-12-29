@@ -6,13 +6,15 @@
 #define FLIGHTGEAR__MAPS_H_
 #include <string>
 #include <map>
+#include "Command.h"
 using namespace std;
 
 namespace Maps {
-  extern map<string, float> xmlMap;
-  extern map<string, pair<float, string>> symbolTableSimToClient;
-  extern map<string, pair<float, string>> symbolTableClientToSim;
-  extern int socketId;
+extern map<string, float> xmlMap;
+extern map<string, pair<float, string>> symbolTableSimToClient;
+extern map<string, pair<float, string>> symbolTableClientToSim;
+extern map<string, Command *> CommandMap;
+extern int socketId;
 };
 
 #endif //FLIGHTGEAR__MAPS_H_

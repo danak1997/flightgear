@@ -50,7 +50,7 @@ class Lexer {
   }
 
   bool doesIfOrWhileExistAndSpace(string line) {
-    regex parenthesis("(while|if)( ).*");
+    regex parenthesis("(while|if)( )(?!\\().*");
     int count = distance(sregex_iterator(line.begin(), line.end(), parenthesis), sregex_iterator());
     return count != 0;
   }
@@ -80,7 +80,7 @@ class Lexer {
   }
 
   bool doesIfOrWhileExistAndPar(string line) {
-    regex parenthesis("(while|if)(\\().*");
+    regex parenthesis("(while|if)( )?(\\().*");
     int count = distance(sregex_iterator(line.begin(), line.end(), parenthesis), sregex_iterator());
     return count != 0;
   }
@@ -123,6 +123,12 @@ class Lexer {
         if (doesIfOrWhileExistAndSpace(line)) {
           strArray.emplace_back(strtok(lineStrTok, " "));
         } else {
+          string::iterator end_pos = remove(line.begin(), line.end(), ' ');
+          line.erase(end_pos, line.end());
+          end_pos = remove(line.begin(), line.end(), '\t');
+          line.erase(end_pos, line.end());
+          lineStrTok[line.length() + 1];
+          strcpy(lineStrTok, line.c_str());
           isPar = true;
           strArray.emplace_back(strtok(lineStrTok, "("));
         }
@@ -154,18 +160,27 @@ class Lexer {
         strArray.emplace_back(wordToPushPartOne);
         strArray.emplace_back(delim);
         wordToPushPartTwo = strtok(nullptr, "{");
-        if (isDDigit) {
-          for (i = 1; i < strlen(wordToPushPartTwo); i++) {
-            wordToPushPartTwo[i - 1] = wordToPushPartTwo[i];
+        if(isPar) {
+          if (isDDigit) {
+            for (i = 1; i < strlen(wordToPushPartTwo); i++) {
+              wordToPushPartTwo[i - 1] = wordToPushPartTwo[i];
+            }
+
+            wordToPushPartTwo[strlen(wordToPushPartTwo) - 2] = '\0';
+          } else {
+            wordToPushPartTwo[strlen(wordToPushPartTwo) - 1] = '\0';
           }
-          wordToPushPartThree[strlen(wordToPushPartThree) - 1] = '\0';
+        } else{
+          *remove(wordToPushPartTwo, wordToPushPartTwo + strlen(wordToPushPartTwo), ' ') = 0;
+          if (isDDigit) {
+            for (i = 1; i < strlen(wordToPushPartTwo); i++) {
+              wordToPushPartTwo[i - 1] = wordToPushPartTwo[i];
+            }
+
+            wordToPushPartTwo[strlen(wordToPushPartTwo) - 1] = '\0';
+          }
         }
-        if (!isPar) {
-          strArray.emplace_back(wordToPushPartTwo);
-        } else {
-          wordToPushPartTwo[strlen(wordToPushPartTwo) - 1] = '\0';
-          strArray.emplace_back(wordToPushPartTwo);
-        }
+        strArray.emplace_back(wordToPushPartTwo);
         isPar = false;
         strArray.emplace_back("{");
       } else if (doesVarExistAndEqual(line)) {

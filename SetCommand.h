@@ -10,7 +10,7 @@
 using namespace std;
 class SetCommand : public Command{
  public:
-  int execute(vector<string>,bool);
+  int execute(vector<string>);
 };
 
 #endif //FLIGHTGEAR__SETCOMMAND_H_

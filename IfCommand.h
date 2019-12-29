@@ -11,8 +11,7 @@ using namespace std;
 
 class IfCommand : public ConditionParser{
  public:
-    IfCommand(vector<string>,vector<Command>);
-    int execute(vector<string>,bool);
+    int execute(vector<string>);
     //virtual ~IfCommand();
 };
 

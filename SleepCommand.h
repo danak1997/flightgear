@@ -11,7 +11,7 @@
 using namespace std;
 
 class SleepCommand : public Command{
-  int execute(vector<string>,bool);
+  int execute(vector<string>);
   //virtual ~SleepCommand();
 };
 

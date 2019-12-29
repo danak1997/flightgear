@@ -9,49 +9,55 @@
 #include <thread>
 #include "ConnectCommand.h"
 #include "Maps.h"
+#include "ExpressionCalculate.h"
+#include <algorithm>
 
 void connectClient(int port, string ip) {
-    int socketId = 0, readValue;
-    struct sockaddr_in serverAddress;
-    char buffer[1024] = {0};
-    string message = "set /controls/engines/current-engine/throttle 1\r\n";
-    const char* c = message.c_str();
+  int socketId = 0, readValue;
+  struct sockaddr_in serverAddress;
+  char buffer[1024] = {0};
+  string message = "set /controls/engines/current-engine/throttle 1\r\n";
+  const char *c = message.c_str();
 
-    cout << "aaln client" << endl;
+  cout << "aaln client" << endl;
 
-    // Create socket
-    if ((socketId = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
-        cout << "socket creation error" << endl;
-        exit(EXIT_FAILURE);
-    }
+  // Create socket
+  if ((socketId = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+    cout << "socket creation error" << endl;
+    exit(EXIT_FAILURE);
+  }
 
-    cout << "socket created" << endl;
+  cout << "socket created" << endl;
 
-    serverAddress.sin_family = AF_INET;
-    serverAddress.sin_port = htons(port);
-    const char* ipConst = ip.c_str();
+  serverAddress.sin_family = AF_INET;
+  serverAddress.sin_port = htons(port);
+  const char *ipConst = ip.c_str();
 
-    if (inet_pton(AF_INET, ipConst, &serverAddress.sin_addr) <= 0) {
-        cout << "invalid address" << endl;
-        exit(EXIT_FAILURE);
-    }
+  if (inet_pton(AF_INET, ipConst, &serverAddress.sin_addr) <= 0) {
+    cout << "invalid address" << endl;
+    exit(EXIT_FAILURE);
+  }
 
-    cout << "address converted" << endl;
+  cout << "address converted" << endl;
 
-    while (connect(socketId, (struct sockaddr *)&serverAddress, sizeof(serverAddress)) < 0) {
-    }
+  while (connect(socketId, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
+  }
 
-    cout << "connected" << endl;
-    Maps::socketId = socketId;
+  cout << "connected" << endl;
+  Maps::socketId = socketId;
 }
 
-int ConnectCommand::execute(vector<string> params,bool isConditionInvoked) {
-  if(isConditionInvoked) {
-    int port = stoi(params[2]);
-    int i;
-    string ip = params[1];
-    ip = ip.substr(1, ip.length() - 2);
-    this->threadClient = thread(connectClient, port, ip);
-  }
-    return 3;
+int ConnectCommand::execute(vector<string> params) {
+  Interpreter *i = new Interpreter();
+  Expression *answer = nullptr;
+  string::iterator end_pos = remove(params[2].begin(), params[2].end(), ' ');
+  params[2].erase(end_pos, params[2].end());
+  end_pos = remove(params[2].begin(), params[2].end(), '\t');
+  params[2].erase(end_pos, params[2].end());
+  answer = i->interpret(params[2]);
+  int port = answer->calculate();
+  string ip = params[1];
+  ip = ip.substr(1, ip.length() - 2);
+  this->threadClient = thread(connectClient, port, ip);
+  return 3;
 }

@@ -12,7 +12,7 @@ using namespace std;
 
 class DefineVarCommand : public Command{
  public:
-  int execute(vector<string>,bool);
+  int execute(vector<string>);
   //virtual ~DefineVarCommand();
 };
 

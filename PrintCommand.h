@@ -14,8 +14,9 @@ using namespace std;
 
 class PrintCommand : public Command {
 public:
-    int execute(vector<string>,bool);
+    int execute(vector<string>);
     //virtual ~PrintCommand();
+    bool doesDelimExist(string, char);
 };
 
 #endif //FLIGHTGEAR_PRINTCOMMAND_H

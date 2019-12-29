@@ -16,14 +16,12 @@ class Parser {
 
 private:
     vector<string> params;
-    map<string, Command*> CommandMap;
 
 public:
     Parser(vector<string>);
     void createMap();
     //virtual ~Parser() {};
     void parsering();
-    int parseCondition();
 };
 
 

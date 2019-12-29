@@ -13,8 +13,7 @@ using namespace std;
 
 class LoopCommand : public ConditionParser {
 public:
-    LoopCommand(vector<string>,vector<Command>);
-    int execute(vector<string>, bool);
+    int execute(vector<string>);
     //virtual ~LoopCommand();
 };
 

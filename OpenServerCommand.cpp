@@ -9,6 +9,8 @@
 #include <thread>
 #include "parseBufferToSymbleTable.h"
 #include "Maps.h"
+#include "ExpressionCalculate.h"
+#include <algorithm>
 
 void connectServer(int port) {
   int serverFd, newSocket, readValue;
@@ -74,12 +76,17 @@ void connectServer(int port) {
   }
 }
 
-int OpenServerCommand::execute(vector<string> params, bool isConditionInvoked) {
-  if (isConditionInvoked) {
-    int port = stoi(params[1]);
-    cout << port << endl;
-    this->threadServer = thread(connectServer, port);
-    cout << "end OpenServerCommand" << endl;
-  }
+int OpenServerCommand::execute(vector<string> params) {
+  Interpreter *i = new Interpreter();
+  Expression *answer = nullptr;
+  string::iterator end_pos = remove(params[1].begin(), params[1].end(), ' ');
+  params[1].erase(end_pos, params[1].end());
+  end_pos = remove(params[1].begin(), params[1].end(), '\t');
+  params[1].erase(end_pos, params[1].end());
+  answer = i->interpret(params[1]);
+  int port = answer->calculate();
+  cout << port << endl;
+  this->threadServer = thread(connectServer, port);
+  cout << "end OpenServerCommand" << endl;
   return 2;
 }

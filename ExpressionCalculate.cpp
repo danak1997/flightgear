@@ -411,11 +411,15 @@ Expression *Interpreter::postfixToExp(queue<string> qs) {
       }
     } else {
       // checks if the variable is in the map
-      if (checkIfInMap(qs.front())) {
+      if (checkIfInMapClientToSim(qs.front())) {
         Expression *var = new Variable(qs.front(), Maps::symbolTableClientToSim[qs.front()].first);
         sEvaluate.push(var);
         qs.pop();
-      } else {
+      }else if(checkIfInMapSimToClient(qs.front())){
+        Expression *var = new Variable(qs.front(), Maps::symbolTableSimToClient[qs.front()].first);
+        sEvaluate.push(var);
+        qs.pop();
+      }else {
         throw "Undefined variable";
       }
     }
@@ -507,7 +511,12 @@ bool Interpreter::checkValidOrder(string s) {
   return (count1 + count2 + count3) == 0;
 }
 
-// // The function returns true if the map contains the string
-bool Interpreter::checkIfInMap(string s) {
+// // The function returns true if the map ClientToSim contains the string
+bool Interpreter::checkIfInMapClientToSim(string s) {
   return !(Maps::symbolTableClientToSim.find(s) == Maps::symbolTableClientToSim.end());
+}
+
+// // The function returns true if the map contains the string
+bool Interpreter::checkIfInMapSimToClient(string s) {
+  return !(Maps::symbolTableSimToClient.find(s) == Maps::symbolTableSimToClient.end());
 }

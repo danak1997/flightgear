@@ -16,7 +16,7 @@ class OpenServerCommand : public Command {
 protected:
     thread threadServer;
 public:
-    int execute(vector<string>, bool);
+    int execute(vector<string>);
     // void connectServer(int);
     //virtual ~OpenServerCommand();
 };

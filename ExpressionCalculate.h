@@ -115,7 +115,8 @@ class Interpreter {
   bool checkVarAndP(string);
   bool checkParentheses(string);
   bool checkValidOrder(string);
-  bool checkIfInMap(string);
+  bool checkIfInMapClientToSim(string);
+  bool checkIfInMapSimToClient(string);
 };
 
 #endif //FLIGHTGEAR__EXPRESSIONCALCULATE_H_

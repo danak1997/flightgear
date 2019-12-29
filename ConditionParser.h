@@ -13,12 +13,8 @@
 using namespace std;
 
 class ConditionParser : public Command {
- protected:
-  vector<string> booleanCondition;
-  vector<Command> blockCommands;
 public:
-  ConditionParser(vector<string>,vector<Command>);
-    virtual int execute(vector<string>, bool) = 0;
+    virtual int execute(vector<string>) = 0;
     //virtual ~ConditionParser();
 };
 
