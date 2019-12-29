@@ -73,7 +73,7 @@ int IfCommand::execute(vector<string> params) {
         if (params[index] == "}") {
           returnCount++;
           break;
-        } else if (Maps::CommandMap[params[index]] == nullptr) {
+        } else if (Maps::CommandMap.find(params[index])==Maps::CommandMap.end()) {
           c = new SetCommand();
         } else {
           c = Maps::CommandMap.at(params[index]);
@@ -104,4 +104,6 @@ int IfCommand::execute(vector<string> params) {
 
   return returnCount;
 }
+
+
 

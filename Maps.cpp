@@ -7,6 +7,6 @@ namespace Maps {
  map<string, float> xmlMap = map<string, float>();
  map<string, pair<float, string>> symbolTableSimToClient = map<string, pair<float, string>>();
  map<string, pair<float, string>> symbolTableClientToSim = map<string, pair<float, string>>();
-  map<string, Command*> CommandMap = map<string, Command*>();
-int socketId = -1;
+ map<string, Command*> CommandMap = map<string, Command*>();
+ int socketId = -1;
 }

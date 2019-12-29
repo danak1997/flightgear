@@ -40,9 +40,9 @@ void Parser::parsering() {
     int index = 0;
     Command *c;
     createMap();
-    while (index < params.size()) {
+    while (params.size() > 0) {
         index = 0;
-        if(Maps::CommandMap[params[index]]==nullptr){
+        if(Maps::CommandMap.find(params[index])==Maps::CommandMap.end()){
           c = new SetCommand();
         }
         else {

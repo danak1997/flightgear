@@ -15,6 +15,7 @@ class LoopCommand : public ConditionParser {
 public:
     int execute(vector<string>);
     //virtual ~LoopCommand();
+    bool resultCondition(double,double,string);
 };
 
 

@@ -13,8 +13,6 @@
 using namespace std;
 
 class ConnectCommand : public Command {
-protected:
-    thread threadClient;
 public:
     int execute(vector<string>);
     //virtual ~ConnectCommand();

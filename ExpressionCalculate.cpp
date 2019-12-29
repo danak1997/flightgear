@@ -234,12 +234,11 @@ Expression *Interpreter::interpret(string str) {
     string strSign(1, sign);
     // checks if the string is an operator
     if (checkIfOp(strSign)) {
-      if (!operators.empty()) {
-        while ((precedence[operators.top()] >= precedence[strSign]) && (operators.top().compare("(") != 0)) {
+        while ((!operators.empty())&& ((precedence[operators.top()] >= precedence[strSign]) && (operators.top().compare("(") != 0))) {
           output.push(operators.top());
           operators.pop();
         }
-      }
+
       operators.push(strSign);
       iterator++;
     } else if (strSign.compare("(") == 0) {
@@ -474,7 +473,7 @@ bool Interpreter::checkValidNumOp(string s) {
 
 // The function returns true if the string contains variables in parenthesis when there is Uminus/Uplus
 bool Interpreter::checkVarAndP(string s) {
-  regex findVarAndP(R"(((!+!|!-!)(\)|(([A-Z]|[a-z]|\_)([0-9]|\_|[A-Z]|[a-z])*))))");
+  regex findVarAndP(R"(((!+!|!-!)(\)|((\_)([0-9]|\_|[A-Z]|[a-z])*))))");
   int count = distance(
       sregex_iterator(s.begin(), s.end(), findVarAndP),
       sregex_iterator());

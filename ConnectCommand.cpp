@@ -58,6 +58,7 @@ int ConnectCommand::execute(vector<string> params) {
   int port = answer->calculate();
   string ip = params[1];
   ip = ip.substr(1, ip.length() - 2);
-  this->threadClient = thread(connectClient, port, ip);
+  thread threadClient(connectClient, port, ip);
+  threadClient.join();
   return 3;
 }

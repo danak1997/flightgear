@@ -13,8 +13,6 @@
 using namespace std;
 
 class OpenServerCommand : public Command {
-protected:
-    thread threadServer;
 public:
     int execute(vector<string>);
     // void connectServer(int);

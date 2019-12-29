@@ -4,22 +4,25 @@
 
 #include "LoopCommand.h"
 #include "ExpressionCalculate.h"
+#include "Maps.h"
+#include "SetCommand.h"
 #include <algorithm>
 
 int LoopCommand::execute(vector<string> params) {
   int index = 0;
   int returnCount = 0;
-  bool booleanCondition = false;
+  int currCell = 0;
   Command *c;
+  vector<string> block;
   auto first = params.begin();
   auto last = params.begin();
   advance(last, 4);
-  vector<string> conditionVec(first,last);
+  vector<string> conditionVec(first, last);
   vector<string>::iterator iteratorBegin, iteratorEnd = params.begin();
   iteratorBegin = params.begin();
   advance(iteratorEnd, 5);
   params.erase(iteratorBegin, iteratorEnd);
-  returnCount+=5;
+  returnCount += 5;
   Interpreter *i = new Interpreter();
   Expression *left = nullptr;
   Expression *right = nullptr;
@@ -36,62 +39,47 @@ int LoopCommand::execute(vector<string> params) {
     conditionVec[3].erase(end_pos, conditionVec[3].end());
     right = i->interpret(conditionVec[3]);
     double answerRight = right->calculate();
-    if (conditionVec[2].compare("<") == 0) {
-      if (answerLeft < answerRight) {
-        booleanCondition = true;
+    while (resultCondition(answerLeft, answerRight, conditionVec[2])) {
+      currCell = 0;
+      while(params[currCell].compare("}")!=0){
+        block.emplace_back(params[currCell]);
+        currCell++;
       }
-    } else if (conditionVec[2].compare(">") == 0) {
-      if (answerLeft > answerRight) {
-        booleanCondition = true;
-      }
-    } else if (conditionVec[2].compare("<=") == 0) {
-      if (answerLeft <= answerRight) {
-        booleanCondition = true;
-      }
-    } else if (conditionVec[2].compare(">=") == 0) {
-      if (answerLeft >= answerRight) {
-        booleanCondition = true;
-      }
-    } else if (conditionVec[2].compare("==") == 0) {
-      if (answerLeft == answerRight) {
-        booleanCondition = true;
-      }
-    } else {
-      if (answerLeft != answerRight) {
-        booleanCondition = true;
-      }
-    }
-    if (booleanCondition) {
-      while (index < params.size()) {
+      index = 0;
+      while (block.size() > 0) {
         index = 0;
-        string::iterator end_pos = remove(params[index].begin(), params[index].end(), ' ');
-        params[index].erase(end_pos, params[index].end());
-        end_pos = remove(params[index].begin(), params[index].end(), '\t');
-        params[index].erase(end_pos, params[index].end());
-        if (params[index] == "}") {
-          returnCount++;
-          break;
-        } else if (Maps::CommandMap[params[index]] == nullptr) {
+        bool isCSetCommand = false;
+        string::iterator end_pos = remove(block[index].begin(), block[index].end(), ' ');
+        block[index].erase(end_pos, block[index].end());
+        end_pos = remove(block[index].begin(), block[index].end(), '\t');
+        block[index].erase(end_pos, block[index].end());
+        if (Maps::CommandMap.find(block[index])==Maps::CommandMap.end()) {
           c = new SetCommand();
+          isCSetCommand = true;
         } else {
-          c = Maps::CommandMap.at(params[index]);
+          c = Maps::CommandMap.at(block[index]);
         }
         if (c != nullptr) {
-          index += c->execute(params);
-          returnCount += index;
+          index += c->execute(block);
+          if (isCSetCommand) {
+            delete c;
+          }
         }
-        iteratorEnd = params.begin();
-        iteratorBegin = params.begin();
+        iteratorEnd = block.begin();
+        iteratorBegin = block.begin();
         advance(iteratorEnd, index);
-        params.erase(iteratorBegin, iteratorEnd);
+        block.erase(iteratorBegin, iteratorEnd);
       }
-    } else{
-      index = 0;
-      while(params[index].compare("}")!=0){
-        index++;
-      }
-      returnCount += index + 1;
+      left = i->interpret(conditionVec[1]);
+      answerLeft = left->calculate();
+      right = i->interpret(conditionVec[3]);
+      answerRight = right->calculate();
     }
+    index = 0;
+    while (params[index].compare("}") != 0) {
+      index++;
+    }
+    returnCount += index + 1;
   }
   catch (const char *e) {
     if (e != nullptr) {
@@ -101,5 +89,21 @@ int LoopCommand::execute(vector<string> params) {
   }
 
   return returnCount;
+}
+
+bool LoopCommand::resultCondition(double answerLeft, double answerRight, string op) {
+  if (op.compare("<") == 0) {
+    return (answerLeft < answerRight);
+  } else if (op.compare(">") == 0) {
+    return (answerLeft > answerRight);
+  } else if (op.compare("<=") == 0) {
+    return (answerLeft <= answerRight);
+  } else if (op.compare(">=") == 0) {
+    return (answerLeft >= answerRight);
+  } else if (op.compare("==") == 0) {
+    return (answerLeft == answerRight);
+  } else {
+    return (answerLeft != answerRight);
+  }
 }
 

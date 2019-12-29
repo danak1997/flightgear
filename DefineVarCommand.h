@@ -14,6 +14,8 @@ class DefineVarCommand : public Command{
  public:
   int execute(vector<string>);
   //virtual ~DefineVarCommand();
+  bool checkIfInMapClientToSim(string);
+  bool checkIfInMapSimToClient(string);
 };
 
 #endif //FLIGHTGEAR__DEFINEVARCOMMAND_H_

@@ -11,14 +11,38 @@
 #include "Maps.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
+#include <mutex>
+
+mutex openServerMutex;
+
+void listenForSimulatorMessages(int newSocket) {
+  char buffer1[1] = {0};
+  string bufferWithLine = "";
+  map<string, pair<float, string>>::iterator it;
+  auto *parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
+  while (read(newSocket, buffer1, 1)) {
+    openServerMutex.lock();
+    char currChar = buffer1[0];
+    if (currChar != '\n') {
+      bufferWithLine += buffer1[0];
+    } else {
+      parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
+      bufferWithLine = "";
+      for (it = Maps::symbolTableSimToClient.begin(); it != Maps::symbolTableSimToClient.end(); it++) {
+        string sim = it->second.second;
+        float value = Maps::xmlMap[sim];
+        it->second.first = value;
+      }
+    }
+    openServerMutex.unlock();
+  }
+}
 
 void connectServer(int port) {
   int serverFd, newSocket, readValue;
   struct sockaddr_in socketAddress;
   int optionNumber = 1;
   int addressLength = sizeof(socketAddress);
-  char buffer1[1] = {0};
-  string bufferWithLine = "";
   char *message;
 
   // Create socket
@@ -54,26 +78,8 @@ void connectServer(int port) {
   }
 
   cout << "client connected, listen for messages" << endl;
-  bool printOnce = true;
-  int index = 0;
-  int countCommas = 0;
-  map<string, pair<float, string>>::iterator it;
-  auto *parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
-  while (read(newSocket, buffer1, 1)) {
-    char currChar = buffer1[0];
-    if (currChar != '\n') {
-      bufferWithLine += buffer1[0];
-    } else {
-      parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
-      bufferWithLine = "";
-      for (it = Maps::symbolTableSimToClient.begin(); it != Maps::symbolTableSimToClient.end(); it++) {
-        string sim = it->second.second;
-        float value = Maps::xmlMap[sim];
-        it->second.first = value;
-      }
-    }
-
-  }
+  thread simSyncThread(listenForSimulatorMessages, newSocket);
+  simSyncThread.detach();
 }
 
 int OpenServerCommand::execute(vector<string> params) {
@@ -86,7 +92,8 @@ int OpenServerCommand::execute(vector<string> params) {
   answer = i->interpret(params[1]);
   int port = answer->calculate();
   cout << port << endl;
-  this->threadServer = thread(connectServer, port);
+  thread threadServer(connectServer, port);
+  threadServer.join();
   cout << "end OpenServerCommand" << endl;
   return 2;
 }
