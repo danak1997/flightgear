@@ -55,11 +55,11 @@ int IfCommand::execute(vector<string> params) {
         booleanCondition = true;
       }
     } else if (conditionVec[2].compare("==") == 0) {
-      if (answerLeft == answerRight) {
+      if (abs(answerLeft - answerRight) <0.0001 ) {
         booleanCondition = true;
       }
     } else {
-      if (answerLeft != answerRight) {
+      if (abs(answerLeft - answerRight) >= 0.0001 ) {
         booleanCondition = true;
       }
     }

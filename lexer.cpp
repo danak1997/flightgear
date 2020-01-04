@@ -18,6 +18,11 @@ class Lexer {
     int count = distance(sregex_iterator(line.begin(), line.end(), parenthesis), sregex_iterator());
     return count != 0;
   }
+  bool doesCommaExistBetweenQuotationMarks(string line) {
+    regex parenthesis("(.*\".*,.*\".*)");
+    int count = distance(sregex_iterator(line.begin(), line.end(), parenthesis), sregex_iterator());
+    return count != 0;
+  }
 
   bool doesEqualExist(string line) {
     regex parenthesis("(.*\\=.*)");
@@ -114,12 +119,14 @@ class Lexer {
     if (!in_file.is_open()) {
       throw "Cannot open file";
     }
-
+    // reads line by line from the file
     while (getline(in_file, line)) {
+      // creates char* from the line string
       char lineStrTok[line.length() + 1];
       strcpy(lineStrTok, line.c_str());
-
+      // checks if the line contains "while" of "if" with space or parenthesis
       if (doesIfOrWhileExistAndSpace(line) || doesIfOrWhileExistAndPar(line)) {
+        // checks if it contains space
         if (doesIfOrWhileExistAndSpace(line)) {
           strArray.emplace_back(strtok(lineStrTok, " "));
         } else {
@@ -160,7 +167,7 @@ class Lexer {
         strArray.emplace_back(wordToPushPartOne);
         strArray.emplace_back(delim);
         wordToPushPartTwo = strtok(nullptr, "{");
-        if(isPar) {
+        if (isPar) {
           if (isDDigit) {
             for (i = 1; i < strlen(wordToPushPartTwo); i++) {
               wordToPushPartTwo[i - 1] = wordToPushPartTwo[i];
@@ -170,7 +177,7 @@ class Lexer {
           } else {
             wordToPushPartTwo[strlen(wordToPushPartTwo) - 1] = '\0';
           }
-        } else{
+        } else {
           *remove(wordToPushPartTwo, wordToPushPartTwo + strlen(wordToPushPartTwo), ' ') = 0;
           if (isDDigit) {
             for (i = 1; i < strlen(wordToPushPartTwo); i++) {
@@ -183,6 +190,7 @@ class Lexer {
         strArray.emplace_back(wordToPushPartTwo);
         isPar = false;
         strArray.emplace_back("{");
+        // checks if "var" exists with "="
       } else if (doesVarExistAndEqual(line)) {
         wordToPushPartOne = strtok(lineStrTok, " ");
         strArray.emplace_back(wordToPushPartOne);
@@ -191,6 +199,7 @@ class Lexer {
         strArray.emplace_back("=");
         wordToPushPartThree = strtok(nullptr, "\n");
         strArray.emplace_back(wordToPushPartThree);
+        // checks if "var" exists with an arrow
       } else if (doesVarExistAndArrow(line)) {
         wordToPushPartOne = strtok(lineStrTok, " ");
         strArray.emplace_back(wordToPushPartOne);
@@ -213,18 +222,21 @@ class Lexer {
         }
         wordToPushPartThree[strlen(wordToPushPartThree) - 1] = '\0';
         strArray.emplace_back(wordToPushPartThree);
-        wordToPushPartFour = strtok(nullptr, ")");
+        wordToPushPartFour = strtok(nullptr, "");
+        wordToPushPartFour[strlen(wordToPushPartFour)-1] = '\0';
         strArray.emplace_back(wordToPushPartFour);
-      } else if (doesEqualExist(line)) {
+        // checks if "=" exists and quotation marks does not exist
+      } else if ((doesEqualExist(line))&&(!doesDelimExist(line,'"'))) {
         wordToPushPartOne = strtok(lineStrTok, "=");
         strArray.emplace_back(wordToPushPartOne);
         strArray.emplace_back("=");
         wordToPushPartTwo = strtok(nullptr, "\n");
         strArray.emplace_back(wordToPushPartTwo);
+        // checks if parenthesis exist
       } else if (doesParanthesisExist(line)) {
         wordToPushPartOne = strtok(lineStrTok, "(");
         strArray.emplace_back(wordToPushPartOne);
-        if (doesCommaExist(line)) {
+        if (doesCommaExist(line) && !doesCommaExistBetweenQuotationMarks(line)) {
           wordToPushPartTwo[strlen(wordToPushPartTwo) - 1] = '\0';
           wordToPushPartTwo = strtok(nullptr, ",");
           while (wordToPushPartTwo) {
@@ -232,7 +244,8 @@ class Lexer {
             wordToPushPartTwo = strtok(nullptr, ",");
           }
         } else {
-          wordToPushPartTwo = strtok(nullptr, ")");
+          wordToPushPartTwo = strtok(nullptr, "");
+          wordToPushPartTwo[strlen(wordToPushPartTwo)-1] = '\0';
           strArray.emplace_back(wordToPushPartTwo);
         }
       } else {

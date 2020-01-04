@@ -7,6 +7,7 @@
 #include "Maps.h"
 #include "SetCommand.h"
 #include <algorithm>
+#include <iostream>
 
 int LoopCommand::execute(vector<string> params) {
   int index = 0;
@@ -83,6 +84,7 @@ int LoopCommand::execute(vector<string> params) {
   }
   catch (const char *e) {
     if (e != nullptr) {
+      cout <<"no" << endl;
       delete e;
       delete i;
     }
@@ -101,9 +103,9 @@ bool LoopCommand::resultCondition(double answerLeft, double answerRight, string 
   } else if (op.compare(">=") == 0) {
     return (answerLeft >= answerRight);
   } else if (op.compare("==") == 0) {
-    return (answerLeft == answerRight);
+    return (abs(answerLeft - answerRight) <0.0001 );
   } else {
-    return (answerLeft != answerRight);
+    return (abs(answerLeft - answerRight) >= 0.0001 );
   }
 }
 
