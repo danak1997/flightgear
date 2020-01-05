@@ -42,11 +42,11 @@ Variable::Variable(string name1, double value1) {
   name = name1;
   value = value1;
 }
-Variable &Variable::operator++(int num) {
+Variable &Variable::operator++(int) {
   value++;
   return *this;
 }
-Variable &Variable::operator--(int num) {
+Variable &Variable::operator--(int) {
   value--;
   return *this;
 }

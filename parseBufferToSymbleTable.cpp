@@ -19,6 +19,8 @@ void parseBufferToSymbolTable::parseBufferAnsSymbolTables(const string& buffer) 
     bufferArray.emplace_back(valueToInsert);
     currValue = strtok(nullptr, ",");
   }
+
+  // Create the xml map - put all of the values that the simulator sent in the sutable keys
   Maps::xmlMap["/instrumentation/airspeed-indicator/indicated-speed-kt"] = bufferArray[0];
   Maps::xmlMap["/sim/time/warp"] = bufferArray[1];
   Maps::xmlMap["/controls/switches/magnetos"] = bufferArray[2];

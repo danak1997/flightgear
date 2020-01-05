@@ -15,6 +15,6 @@ extern map<string, pair<float, string>> symbolTableSimToClient;
 extern map<string, pair<float, string>> symbolTableClientToSim;
 extern map<string, Command *> CommandMap;
 extern int socketId;
-};
+}
 
 #endif //FLIGHTGEAR__MAPS_H_

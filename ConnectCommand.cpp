@@ -5,7 +5,6 @@
 #include <netinet/in.h>
 #include <iostream>
 #include <arpa/inet.h>
-#include <cstring>
 #include <thread>
 #include "ConnectCommand.h"
 #include "Maps.h"
@@ -13,11 +12,8 @@
 #include <algorithm>
 
 void connectClient(int port, string ip) {
-  int socketId = 0, readValue;
+  int socketId = 0;
   struct sockaddr_in serverAddress;
-  char buffer[1024] = {0};
-  string message = "set /controls/engines/current-engine/throttle 1\r\n";
-  const char *c = message.c_str();
 
   cout << "aaln client" << endl;
 

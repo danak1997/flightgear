@@ -71,6 +71,7 @@ void connectServer(int port) {
     exit(EXIT_FAILURE);
   }
 
+  // Accept clients
   cout << "accepting clients" << endl;
   if ((newSocket = accept(serverFd, (struct sockaddr *) &socketAddress, (socklen_t *) &addressLength)) < 0) {
     perror("accept");
@@ -78,20 +79,26 @@ void connectServer(int port) {
   }
 
   cout << "client connected, listen for messages" << endl;
+  // TODO: write a comment all over that function
   thread simSyncThread(listenForSimulatorMessages, newSocket);
   simSyncThread.detach();
 }
 
 int OpenServerCommand::execute(vector<string> params) {
+
   Interpreter *i = new Interpreter();
   Expression *answer = nullptr;
+  // Remove spaces
   string::iterator end_pos = remove(params[1].begin(), params[1].end(), ' ');
   params[1].erase(end_pos, params[1].end());
+  // Remove tabs
   end_pos = remove(params[1].begin(), params[1].end(), '\t');
   params[1].erase(end_pos, params[1].end());
+  // Calculate the port
   answer = i->interpret(params[1]);
   int port = answer->calculate();
   cout << port << endl;
+  // Open the thread
   thread threadServer(connectServer, port);
   threadServer.join();
   cout << "end OpenServerCommand" << endl;
