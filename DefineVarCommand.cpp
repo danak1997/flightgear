@@ -48,7 +48,7 @@ bool DefineVarCommand::checkIfInMapClientToSim(string s) {
   return !(Maps::symbolTableClientToSim.find(s) == Maps::symbolTableClientToSim.end());
 }
 
-// // The function returns true if the map SןצTםCךןקמא contains the string
+// // The function returns true if the map SimToClient contains the string
 bool DefineVarCommand::checkIfInMapSimToClient(string s) {
   return !(Maps::symbolTableSimToClient.find(s) == Maps::symbolTableSimToClient.end());
 }
