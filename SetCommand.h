@@ -11,6 +11,7 @@ using namespace std;
 class SetCommand : public Command{
  public:
   int execute(vector<string>);
+  ~SetCommand();
 };
 
 #endif //FLIGHTGEAR__SETCOMMAND_H_

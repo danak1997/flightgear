@@ -57,5 +57,8 @@ void Parser::parsering() {
         params.erase(iteratorBegin, iteratorEnd);
     }
 
+    for (const auto& command : Maps::CommandMap) {
+        delete command.second;
+    }
 }
 
