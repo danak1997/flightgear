@@ -9,7 +9,6 @@
 #include <netinet/in.h>
 #include <string>
 #include <algorithm>
-#include <unistd.h>
 
 int SetCommand::execute(vector<string> params) {
     Interpreter *i = new Interpreter();
@@ -56,9 +55,6 @@ int SetCommand::execute(vector<string> params) {
             delete i;
         }
     }
-    return 3;
-}
 
-SetCommand::~SetCommand() {
-    close(Maps::socketId);
+    return 3;
 }

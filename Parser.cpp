@@ -2,6 +2,7 @@
 // Created by duni on 22/12/2019.
 //
 
+#include <unistd.h>
 #include "Parser.h"
 #include "OpenServerCommand.h"
 #include "ConnectCommand.h"
@@ -57,8 +58,5 @@ void Parser::parsering() {
         params.erase(iteratorBegin, iteratorEnd);
     }
 
-    for (const auto& command : Maps::CommandMap) {
-        delete command.second;
-    }
+    close(Maps::socketId);
 }
-
