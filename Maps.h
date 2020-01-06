@@ -6,6 +6,7 @@
 #define FLIGHTGEAR__MAPS_H_
 #include <string>
 #include <map>
+#include <mutex>
 #include "Command.h"
 using namespace std;
 
@@ -15,6 +16,7 @@ extern map<string, pair<float, string>> symbolTableSimToClient;
 extern map<string, pair<float, string>> symbolTableClientToSim;
 extern map<string, Command *> CommandMap;
 extern int socketId;
+extern mutex symbolTableMutex;
 }
 
 #endif //FLIGHTGEAR__MAPS_H_

@@ -38,8 +38,8 @@ int DefineVarCommand::execute(vector<string> params) {
       cout << "Variable not found in symbolTable" << endl;
       exit(1);
     }
-
   }
+
   return 5;
 }
 

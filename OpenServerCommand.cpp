@@ -11,9 +11,6 @@
 #include "Maps.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
-#include <mutex>
-
-mutex openServerMutex;
 
 void listenForSimulatorMessages(int newSocket) {
   char buffer1[1] = {0};
@@ -21,7 +18,7 @@ void listenForSimulatorMessages(int newSocket) {
   map<string, pair<float, string>>::iterator it;
   auto *parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
   while (read(newSocket, buffer1, 1)) {
-    openServerMutex.lock();
+    Maps::symbolTableMutex.lock();
     char currChar = buffer1[0];
     if (currChar != '\n') {
       bufferWithLine += buffer1[0];
@@ -34,8 +31,11 @@ void listenForSimulatorMessages(int newSocket) {
         it->second.first = value;
       }
     }
-    openServerMutex.unlock();
+
+    Maps::symbolTableMutex.unlock();
   }
+
+  close(newSocket);
 }
 
 void connectServer(int port) {

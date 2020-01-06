@@ -9,4 +9,5 @@ namespace Maps {
  map<string, pair<float, string>> symbolTableClientToSim = map<string, pair<float, string>>();
  map<string, Command*> CommandMap = map<string, Command*>();
  int socketId = -1;
+ mutex symbolTableMutex;
 }

@@ -14,7 +14,6 @@ int SetCommand::execute(vector<string> params) {
     Interpreter *i = new Interpreter();
     Expression *e = nullptr;
     try {
-
         // Remove spaces from the left expression
         string::iterator end_pos = remove(params[2].begin(), params[2].end(), ' ');
         params[2].erase(end_pos, params[2].end());
