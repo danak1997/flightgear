@@ -3,7 +3,7 @@
 //
 
 #include "SetCommand.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "ExpressionCalculate.h"
 #include <cstring>
 #include <netinet/in.h>
@@ -34,17 +34,17 @@ int SetCommand::execute(vector<string> params) {
         float floatAnswer = (float) answer;
         string stringAnswer = to_string(floatAnswer);
         // Insert the calculated value into the symbolTable map
-        Maps::symbolTableClientToSim[params[0]].first = floatAnswer;
+        globalVariables::symbolTableClientToSim[params[0]].first = floatAnswer;
         // Insert the set command to the simulator according to the wanted syntax
         string setCommandToSim = "set ";
         // Insert the path to the simulator
-        setCommandToSim += Maps::symbolTableClientToSim[params[0]].second;
+        setCommandToSim += globalVariables::symbolTableClientToSim[params[0]].second;
         setCommandToSim += " ";
         setCommandToSim += stringAnswer;
         setCommandToSim += "\r\n";
         const char *setCommandToSend = setCommandToSim.c_str();
         // Send the resulting command to the simulator through the socket
-        send(Maps::socketId, setCommandToSend, strlen(setCommandToSend), 0);
+        send(globalVariables::socketId, setCommandToSend, strlen(setCommandToSend), 0);
         // Delete memory
         delete e;
         delete i;

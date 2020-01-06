@@ -10,7 +10,7 @@
 #include "Command.h"
 using namespace std;
 
-namespace Maps {
+namespace globalVariables {
 extern map<string, float> xmlMap;
 extern map<string, pair<float, string>> symbolTableSimToClient;
 extern map<string, pair<float, string>> symbolTableClientToSim;
