@@ -4,10 +4,14 @@
 
 #ifndef FLIGHTGEAR_LEXER_H
 #define FLIGHTGEAR_LEXER_H
+#include <vector>
+#include <string.h>
 
+using namespace std;
 
-class lexer {
-
+class Lexer {
+ public:
+  vector<string> lexicalAnalysis(string);
 };
 
 

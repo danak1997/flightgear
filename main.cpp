@@ -1,13 +1,11 @@
 #include <iostream>
-#include "lexer.cpp"
-#include "lexer.h"
+#include "Lexer.h"
 #include "Parser.h"
 #include "Maps.h"
-int main()
+int main(int argc, char *argv[])
 {
     Lexer* l = new Lexer();
-    Parser* p = new Parser(l->lexer("fly.txt"));
+    Parser* p = new Parser(l->lexicalAnalysis(argv[1]));
     p->parsering();
-
     return 0;
 }
