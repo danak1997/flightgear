@@ -107,6 +107,5 @@ int OpenServerCommand::execute(vector<string> params) {
     // Open the thread
     thread threadServer(connectServer, port);
     threadServer.join();
-    cout << "end OpenServerCommand" << endl;
     return 2;
 }

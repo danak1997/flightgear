@@ -21,8 +21,6 @@ void connectClient(int port, string ip) {
         exit(EXIT_FAILURE);
     }
 
-    cout << "socket created" << endl;
-
     // Convert the address
     serverAddress.sin_family = AF_INET;
     serverAddress.sin_port = htons(port);
@@ -32,8 +30,6 @@ void connectClient(int port, string ip) {
         cout << "invalid address" << endl;
         exit(EXIT_FAILURE);
     }
-
-    cout << "address converted" << endl;
 
     // Connect to the client
     while (connect(socketId, (struct sockaddr *) &serverAddress, sizeof(serverAddress)) < 0) {
