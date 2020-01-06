@@ -51,8 +51,3 @@ The programm reads from a filt which you can edit however you want - write the c
 
 
 :star2: Dana Kreimer
-
-
-* Did you really thought we would end without a little teaser?
-
-[FlightGear](http://home.flightgear.org/)
