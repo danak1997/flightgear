@@ -23,7 +23,7 @@ Congragulations! the hard part is over. Now let the plane do the rest of the wor
 We'll guide you through the different prints in the console during the flight:
 * Before even starting the flight simulator, you'll see the message: "accepting clients". That means that the "OpenDataServerCommand" has executed successfuly and now waiting for connection.
 * After the flight simulaor started, if the connection proccess was made the "OpenDataServerCommand" will let you know that "client connected, listening for messages". The server you've created is now waiting for data from the simulator.
-* Next, "connected" will appear - you are now the connected as a client (you're actually also a server :wink: ). That is the multi-threading in action! 
+* Next, "connected" will appear - you are connected as a client (you're actually also a server :wink: ). That is the multi-threading in action! 
 
 Write commands for the simulator yourself!
 ---
