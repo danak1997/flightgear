@@ -4,7 +4,7 @@
 
 #include "LoopCommand.h"
 #include "ExpressionCalculate.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "SetCommand.h"
 #include <algorithm>
 #include <iostream>
@@ -54,11 +54,11 @@ int LoopCommand::execute(vector<string> params) {
                 block[index].erase(end_pos, block[index].end());
                 end_pos = remove(block[index].begin(), block[index].end(), '\t');
                 block[index].erase(end_pos, block[index].end());
-                if (Maps::CommandMap.find(block[index]) == Maps::CommandMap.end()) {
+                if (globalVariables::CommandMap.find(block[index]) == globalVariables::CommandMap.end()) {
                     c = new SetCommand();
                     isCSetCommand = true;
                 } else {
-                    c = Maps::CommandMap.at(block[index]);
+                    c = globalVariables::CommandMap.at(block[index]);
                 }
                 if (c != nullptr) {
                     index += c->execute(block);

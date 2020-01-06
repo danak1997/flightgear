@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "PrintCommand.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
 

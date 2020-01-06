@@ -3,7 +3,7 @@
 //
 
 #include "DefineVarCommand.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
 #include <iostream>
@@ -16,23 +16,23 @@ int DefineVarCommand::execute(vector<string> params) {
   if (params[2].compare("->") == 0) {
     string sim = params[4];
     sim = sim.substr(1, sim.length() - 2);
-    Maps::symbolTableClientToSim[params[1]] = make_pair(0, sim);
+    globalVariables::symbolTableClientToSim[params[1]] = make_pair(0, sim);
   } else if (params[2].compare("<-") == 0) {
     string sim = params[4];
     sim = sim.substr(1, sim.length() - 2);
-    Maps::symbolTableSimToClient[params[1]] = make_pair(0, sim);
+    globalVariables::symbolTableSimToClient[params[1]] = make_pair(0, sim);
   } else {
     end_pos = remove(params[3].begin(), params[3].end(), ' ');
     params[3].erase(end_pos, params[3].end());
     end_pos = remove(params[3].begin(), params[3].end(), '\t');
     params[3].erase(end_pos, params[3].end());
     if(checkIfInMapSimToClient(params[3])){
-      float value = Maps::symbolTableSimToClient[params[3]].first;
-      Maps::symbolTableSimToClient[params[1]] = make_pair(value, 0);
+      float value = globalVariables::symbolTableSimToClient[params[3]].first;
+      globalVariables::symbolTableSimToClient[params[1]] = make_pair(value, 0);
       return 4;
     }else if(checkIfInMapClientToSim(params[3])){
-      float value = Maps::symbolTableClientToSim[params[3]].first;
-      Maps::symbolTableClientToSim[params[1]] = make_pair(value, 0);
+      float value = globalVariables::symbolTableClientToSim[params[3]].first;
+      globalVariables::symbolTableClientToSim[params[1]] = make_pair(value, 0);
       return 4;
     }else{
       cout << "Variable not found in symbolTable" << endl;
@@ -45,10 +45,10 @@ int DefineVarCommand::execute(vector<string> params) {
 
 // // The function returns true if the map ClientToSim contains the string
 bool DefineVarCommand::checkIfInMapClientToSim(string s) {
-  return !(Maps::symbolTableClientToSim.find(s) == Maps::symbolTableClientToSim.end());
+  return !(globalVariables::symbolTableClientToSim.find(s) == globalVariables::symbolTableClientToSim.end());
 }
 
 // // The function returns true if the map SimToClient contains the string
 bool DefineVarCommand::checkIfInMapSimToClient(string s) {
-  return !(Maps::symbolTableSimToClient.find(s) == Maps::symbolTableSimToClient.end());
+  return !(globalVariables::symbolTableSimToClient.find(s) == globalVariables::symbolTableSimToClient.end());
 }

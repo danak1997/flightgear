@@ -1,7 +1,7 @@
 #include <iostream>
 #include "Lexer.h"
 #include "Parser.h"
-#include "Maps.h"
+#include "globalVariables.h"
 int main(int argc, char *argv[])
 {
     Lexer* l = new Lexer();

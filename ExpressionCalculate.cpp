@@ -4,7 +4,7 @@
 
 #include "ExpressionCalculate.h"
 #include "Expression.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include <queue>
 #include <stack>
 #include <regex>
@@ -411,11 +411,11 @@ Expression *Interpreter::postfixToExp(queue<string> qs) {
     } else {
       // checks if the variable is in the map
       if (checkIfInMapClientToSim(qs.front())) {
-        Expression *var = new Variable(qs.front(), Maps::symbolTableClientToSim[qs.front()].first);
+        Expression *var = new Variable(qs.front(), globalVariables::symbolTableClientToSim[qs.front()].first);
         sEvaluate.push(var);
         qs.pop();
       }else if(checkIfInMapSimToClient(qs.front())){
-        Expression *var = new Variable(qs.front(), Maps::symbolTableSimToClient[qs.front()].first);
+        Expression *var = new Variable(qs.front(), globalVariables::symbolTableSimToClient[qs.front()].first);
         sEvaluate.push(var);
         qs.pop();
       }else {
@@ -512,10 +512,10 @@ bool Interpreter::checkValidOrder(string s) {
 
 // // The function returns true if the map ClientToSim contains the string
 bool Interpreter::checkIfInMapClientToSim(string s) {
-  return !(Maps::symbolTableClientToSim.find(s) == Maps::symbolTableClientToSim.end());
+  return !(globalVariables::symbolTableClientToSim.find(s) == globalVariables::symbolTableClientToSim.end());
 }
 
 // // The function returns true if the map contains the string
 bool Interpreter::checkIfInMapSimToClient(string s) {
-  return !(Maps::symbolTableSimToClient.find(s) == Maps::symbolTableSimToClient.end());
+  return !(globalVariables::symbolTableSimToClient.find(s) == globalVariables::symbolTableSimToClient.end());
 }

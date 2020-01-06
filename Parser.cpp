@@ -12,7 +12,7 @@
 #include "LoopCommand.h"
 #include "IfCommand.h"
 #include "SetCommand.h"
-#include "Maps.h"
+#include "globalVariables.h"
 
 Parser::Parser(vector<string> params) {
     this->params = params;
@@ -20,19 +20,19 @@ Parser::Parser(vector<string> params) {
 
 void Parser::createMap() {
     Command* osc = new OpenServerCommand();
-    Maps::CommandMap.insert({"openDataServer", osc});
+    globalVariables::CommandMap.insert({"openDataServer", osc});
     Command* ccc = new ConnectCommand();
-    Maps::CommandMap.insert({"connectControlClient", ccc});
+    globalVariables::CommandMap.insert({"connectControlClient", ccc});
     Command* dvc = new DefineVarCommand();
-    Maps::CommandMap.insert({"var", dvc});
+    globalVariables::CommandMap.insert({"var", dvc});
     Command* pc = new PrintCommand();
-    Maps::CommandMap.insert({"Print", pc});
+    globalVariables::CommandMap.insert({"Print", pc});
     Command* sc = new SleepCommand();
-    Maps::CommandMap.insert({"Sleep", sc});
+    globalVariables::CommandMap.insert({"Sleep", sc});
     Command* ic = new IfCommand();
-    Maps::CommandMap.insert({"if", ic});
+    globalVariables::CommandMap.insert({"if", ic});
     Command* lc = new LoopCommand();
-    Maps::CommandMap.insert({"while", lc});
+    globalVariables::CommandMap.insert({"while", lc});
 }
 
 
@@ -43,11 +43,11 @@ void Parser::parsering() {
     createMap();
     while (params.size() > 0) {
         index = 0;
-        if(Maps::CommandMap.find(params[index])==Maps::CommandMap.end()){
+        if(globalVariables::CommandMap.find(params[index])==globalVariables::CommandMap.end()){
           c = new SetCommand();
         }
         else {
-          c = Maps::CommandMap.at(params[index]);
+          c = globalVariables::CommandMap.at(params[index]);
         }
         if (c!= nullptr) {
             index += c->execute(params);
@@ -58,5 +58,5 @@ void Parser::parsering() {
         params.erase(iteratorBegin, iteratorEnd);
     }
 
-    close(Maps::socketId);
+    close(globalVariables::socketId);
 }

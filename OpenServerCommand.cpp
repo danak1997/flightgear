@@ -8,7 +8,7 @@
 #include <iostream>
 #include <thread>
 #include "parseBufferToSymbleTable.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
 
@@ -18,21 +18,21 @@ void listenForSimulatorMessages(int newSocket) {
   map<string, pair<float, string>>::iterator it;
   auto *parseBufferToSymbolTable1 = new parseBufferToSymbolTable();
   while (read(newSocket, buffer1, 1)) {
-    Maps::symbolTableMutex.lock();
+    globalVariables::symbolTableMutex.lock();
     char currChar = buffer1[0];
     if (currChar != '\n') {
       bufferWithLine += buffer1[0];
     } else {
       parseBufferToSymbolTable1->parseBufferAnsSymbolTables(bufferWithLine);
       bufferWithLine = "";
-      for (it = Maps::symbolTableSimToClient.begin(); it != Maps::symbolTableSimToClient.end(); it++) {
+      for (it = globalVariables::symbolTableSimToClient.begin(); it != globalVariables::symbolTableSimToClient.end(); it++) {
         string sim = it->second.second;
-        float value = Maps::xmlMap[sim];
+        float value = globalVariables::xmlMap[sim];
         it->second.first = value;
       }
     }
 
-    Maps::symbolTableMutex.unlock();
+    globalVariables::symbolTableMutex.unlock();
   }
 
   close(newSocket);

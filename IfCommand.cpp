@@ -3,7 +3,7 @@
 //
 
 #include "IfCommand.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "SetCommand.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
@@ -73,10 +73,10 @@ int IfCommand::execute(vector<string> params) {
         if (params[index] == "}") {
           returnCount++;
           break;
-        } else if (Maps::CommandMap.find(params[index])==Maps::CommandMap.end()) {
+        } else if (globalVariables::CommandMap.find(params[index])==globalVariables::CommandMap.end()) {
           c = new SetCommand();
         } else {
-          c = Maps::CommandMap.at(params[index]);
+          c = globalVariables::CommandMap.at(params[index]);
         }
         if (c != nullptr) {
           index += c->execute(params);

@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #include <thread>
 #include "ConnectCommand.h"
-#include "Maps.h"
+#include "globalVariables.h"
 #include "ExpressionCalculate.h"
 #include <algorithm>
 
@@ -40,7 +40,7 @@ void connectClient(int port, string ip) {
   }
 
   cout << "connected" << endl;
-  Maps::socketId = socketId;
+  globalVariables::socketId = socketId;
 }
 
 int ConnectCommand::execute(vector<string> params) {
